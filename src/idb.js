@@ -151,3 +151,21 @@ idb.readCalories = function (month=null, year=null) {
         };
     });
 }
+
+
+idb.removeCalories = function(id){
+    return new Promise((resolve,reject)=>{
+        const dbName = this.db.name;
+        const request = this.db.transaction([dbName], "readwrite")
+                .objectStore(dbName)
+                .delete(id);
+        request.onsuccess = function(event) {
+            console.log("removeItem(): the data item was removed from the database");
+            resolve('suceed');
+        };
+        request.onerror = function(event) {
+            console.log("removeItem(): problem with removing a data item from the database");
+            reject('failed');
+        }
+    });
+}
