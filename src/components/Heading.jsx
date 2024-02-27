@@ -1,7 +1,7 @@
-import './App.css';
+import React from "react";
 
 function Heading() {
-  const date = new Date();
+  const date = new Date(2024,1,1,21);
   const currentTime = date.getHours();
   let greeting;
   const customStyle = {
@@ -9,25 +9,21 @@ function Heading() {
   };
 
   if (currentTime < 12) {
-    greeting = "Good Morning";
-    customStyle.color = "red";
+    greeting = "Good morning";
+    customStyle.color = "#FFC300";
   } else if (currentTime < 20) {
     greeting = "Good Afternoon";
-    customStyle.color = "green";
+    customStyle.color = "#FF5733";
   } else {
     greeting = "Good Night";
-    customStyle.color = "blue";
+    customStyle.color = "#C70039";
   }
 
   return (
       <h1 className="heading" style={customStyle}>
         {greeting}
       </h1>
+
   );
 }
-function App()
-{
-  return <Heading />;
-}
-
-export default App;
+export default Heading;
