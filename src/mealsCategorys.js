@@ -1,4 +1,4 @@
-const categorys  = [
+const categories  = [
     {
         value: 'BREAKFAST',
         label: 'BREAKFAST',
@@ -17,4 +17,4 @@ const categorys  = [
     },
 ];
 
-export default categorys;
+export default categories;

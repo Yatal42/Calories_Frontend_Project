@@ -1,29 +1,27 @@
 import React from "react";
 
 function Heading() {
-  const date = new Date(2024,1,1,21);
+  const date = new Date();
   const currentTime = date.getHours();
-  let greeting;
-  const customStyle = {
-    color: "",
-  };
+  let greeting="My calories ";
 
   if (currentTime < 12) {
-    greeting = "Good morning";
-    customStyle.color = "#FFC300";
+    greeting += "Good morning";
   } else if (currentTime < 20) {
-    greeting = "Good Afternoon";
-    customStyle.color = "#FF5733";
+    greeting += "Good Afternoon";
   } else {
-    greeting = "Good Night";
-    customStyle.color = "#C70039";
+    greeting += "Good Night";
   }
 
   return (
-      <h1 className="heading" style={customStyle}>
-        {greeting}
-      </h1>
+      <div className="heading-container">
+        <span className="material-symbols-rounded">dinner_dining</span>
+        <h1 className="heading">
+          {greeting}
+        </h1>
+      </div>
 
   );
 }
+
 export default Heading;
