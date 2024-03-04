@@ -1,17 +1,21 @@
 import Button from "./Button";
 import React, {useState, useEffect} from "react";
-import {Box, DateCalendar, dayjs} from "@mui/material";
+import DatePickers from "./DatePickers";
 
 
-const btnsText=
+const btnList=
     [
         {
             id:1,
-            text:"Remove selected items",
+            text:"Remove selected item",
         },
         {
             id: 2,
             text: "Remove all items",
+        },
+        {
+            id:3,
+            text:"Print report",
         },
     ];
 
@@ -27,25 +31,9 @@ function ReportBtns(){
 
     return (
         <div className="report-btns">
-            {btnsText.map(createButton)}
-            <Button text={'"month" and "year"'}>
-                <DateCalendar
-                    defaultValue={dayjs('2022-04-17')}
-                    views={['month', 'year']}
-                    openTo="month"
-                />
-            </Button>
+            {btnList.map(createButton)}
+            <DatePickers />
         </div>);
 }
 
 export default ReportBtns;
-
-// {
-//     id:3,
-//         text: "Monthly report",
-//     onClick:setMonthlyReport(true),
-// },
-// {
-//     id:4,
-//         text: "Yearly report"
-// }
