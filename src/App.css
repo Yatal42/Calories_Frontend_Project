@@ -58,6 +58,7 @@ h1{
   box-shadow: 0 1px 2px #900C3F;
   font-family: system-ui;
 }
+
 .add-calories-container {
   grid-area: addmeal;
   border-radius: 25px;
@@ -70,6 +71,7 @@ h1{
   height: 100%;
   justify-content: space-around;
 }
+
 .date-pickers-container{
   grid-area: table;
   display: flex;

@@ -1,34 +1,7 @@
 import React, { useState } from "react";
-import { TextField } from "@mui/material";
-import { MenuItem } from "@mui/material";
-import categories from "../mealsCategorys";
 import Button from "./Button";
-import idb from "../idb.js"
-
-const textFieldsProps = [
-    {
-        id: 1,
-        label: "Required Calories",
-        stateKey: "calories",
-    },
-    {
-        id: 2,
-        label: "Required description",
-        stateKey: "description",
-    },
-];
-
-function createTextField(textField, state, setState) {
-    return (
-        <TextField
-            required
-            key={textField.id}
-            label={textField.label}
-            value={state[textField.stateKey] || ""}
-            onChange={(e) => setState({ ...state, [textField.stateKey]: e.target.value })}
-        />
-    );
-}
+import AddMealTextFields from "./AddMealTextFields";
+import idb from "../idb";
 
 function AddCalories() {
     const [mealData, setMealData] = useState({
@@ -37,36 +10,38 @@ function AddCalories() {
         category: "",
     });
 
-    const handleAddCalories = async () => {
+    const handleAddCalories = async (event) => {
+        event.preventDefault(); // Prevent default form submission behavior
         try {
-            await idb.addCalories(mealData);
+            if (!mealData || !mealData.calories || !mealData.description || !mealData.category) {
+                throw new Error("Meal data is missing or incomplete.");
+            }
+            console.log(mealData); // Log mealData before submission
+
+            // Use mealData to add calories to the IndexedDB
+            // const result= await idb.addCalories(mealData);
+
+            // Update mealData state to clear the form fields
+            setMealData({
+                calories: "",
+                description: "",
+                category: "",
+            });
+
             console.log("Meal added successfully!");
         } catch (error) {
             console.error("Error adding meal:", error);
         }
     };
 
+
     return (
-        <div className="add-calories-container">
-            <h1>Add your meal:</h1>
-            {textFieldsProps.map((textField) =>
-                createTextField(textField, mealData, setMealData)
-            )}
-            <TextField
-                id="outlined-select-category"
-                select
-                label="Select Category"
-                value={mealData.category}
-                onChange={(e) => setMealData({ ...mealData, category: e.target.value })}
-                helperText="Please select meal Category"
-            >
-                {categories.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </TextField>
-            <Button text="Add calories" onClick={handleAddCalories}></Button>
+        <div>
+            <form className="add-calories-container" onSubmit={handleAddCalories}>
+                <h1>Add your meal:</h1>
+                {mealData && <AddMealTextFields mealData={mealData} setMealData={setMealData}/>}
+                <Button text="Add calories" type="submit" />
+            </form>
         </div>
     );
 }
