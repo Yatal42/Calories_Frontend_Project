@@ -12,26 +12,30 @@ var idb = {}
 
 idb.openCalorisDB = function(dbName, version){
     return new Promise((resolve,reject) => {
-        idb.request = window.indexedDB.open(dbName, version);
-        idb.request.onerror = function(event) {
+        const request = window.indexedDB.open(dbName, version);
+        request.onerror = function(event) {
             console.log("openCalorisDB(): error: "+event);
             reject("error: "+event);
         };
-        idb.request.onsuccess = function(event) {
-            idb.db = idb.request.result;
+        request.onsuccess = function(event) {
+            idb.db = request.result;
             console.log("openCalorisDB(): success, db created.");
             resolve(idb);
         };
-        idb.request.onupgradeneeded = function(event) {
+        request.onupgradeneeded = function(event) {
             idb.db = event.target.result;
-            idb.store = idb.db.createObjectStore(dbName, {keyPath: 'id', autoIncrement: true});
-            idb.store.createIndex('month_and_year', ['year','month'],{unique: false});
+            const store = idb.db.createObjectStore(dbName, {keyPath: 'id', autoIncrement: true});
+            store.createIndex('month_and_year', ['year','month'],{unique: false});
         };
     });
 }
 
 
-//TODO func addCalories
+// add calories to the indexedDB.
+// input: row of data - givven as a key-value pairs.
+// the function store the data with 4 colomns added to it:
+// year, month, day - according to date
+// id - unique auto generated dy indexedDB.
 idb.addCalories = function (row) {
     return new Promise((resolve,reject) => {
         const date = new Date();
@@ -42,12 +46,12 @@ idb.addCalories = function (row) {
         // year = val % 100 becouse it desplay 124 when its 24
         row.year = date.getYear() % 100;
         const dbName = this.db.name;
-        var request = this.db.transaction([dbName], "readwrite")
+        const request = this.db.transaction([dbName], "readwrite")
             .objectStore(dbName)
             .add(row);
         request.onsuccess = function(event) {
             console.log("addCalories(): seccess. new item added to DB.");
-            resolve('adding item succeed.'+event);
+            resolve('suceed.');
         };
         request.onerror = function(event) {
             console.log("addCalories(): error:" + event);
@@ -75,7 +79,6 @@ idb.readCalories = function (month=null, year=null) {
         var request;
         var allDataFlag = 0;
         const result = [];
-        //var request = objectStore.get('1');
         // if not specify month and year - return all data
         if(month == null && year == null){
             request = objectStore.getAll();
@@ -90,7 +93,7 @@ idb.readCalories = function (month=null, year=null) {
             if(month == null && year != null){
                 monthFrom = 1;
                 const currYear = new Date().getYear%100;
-                if (year == currYear){
+                if (year === currYear){
                     monthTo = new Date().getMonth + 1;
                 }
                 else{
@@ -128,7 +131,7 @@ idb.readCalories = function (month=null, year=null) {
             reject('error:' + event);
         };
         request.onsuccess = function(event){
-            if(allDataFlag == 1){
+            if(allDataFlag === 1){
                 if(request.result){
                     // TODO: fix this TEST to show ALL items in the result.
                     console.log('readCalories(): success, return the result');
@@ -152,7 +155,7 @@ idb.readCalories = function (month=null, year=null) {
     });
 }
 
-
+// removing callories from indexedDB by its ID
 idb.removeCalories = function(id){
     return new Promise((resolve,reject)=>{
         const dbName = this.db.name;
