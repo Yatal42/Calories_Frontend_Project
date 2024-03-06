@@ -79,7 +79,6 @@ idb.readCalories = function (month=null, year=null) {
         var request;
         var allDataFlag = 0;
         const result = [];
-        //var request = objectStore.get('1');
         // if not specify month and year - return all data
         if(month == null && year == null){
             request = objectStore.getAll();
@@ -94,7 +93,7 @@ idb.readCalories = function (month=null, year=null) {
             if(month == null && year != null){
                 monthFrom = 1;
                 const currYear = new Date().getYear%100;
-                if (year == currYear){
+                if (year === currYear){
                     monthTo = new Date().getMonth + 1;
                 }
                 else{
@@ -132,7 +131,7 @@ idb.readCalories = function (month=null, year=null) {
             reject('error:' + event);
         };
         request.onsuccess = function(event){
-            if(allDataFlag == 1){
+            if(allDataFlag === 1){
                 if(request.result){
                     // TODO: fix this TEST to show ALL items in the result.
                     console.log('readCalories(): success, return the result');
