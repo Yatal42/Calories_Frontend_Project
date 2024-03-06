@@ -37,7 +37,8 @@ function AddMealTextFields({ mealData = {}, setMealData }) { // Ensure mealData 
                 select
                 label="Select Category"
                 value={mealData.category || ""} // Ensure default value is provided if category does not exist
-                onChange={(event) => setMealData(prevMealData => ({ ...prevMealData, category: event.target.value }))}
+                onChange={(event) =>
+                    setMealData(prevMealData => ({ ...prevMealData, category: event.target.value }))}
                 helperText="Please select meal Category"
             >
                 {categories.map((option) => (

@@ -1,25 +1,28 @@
 // check for indexed db availability in browser.
-window.indexedDB = window.indexedDB || window.mozIndexedDB ||
-window.webkitIndexedDB || window.msIndexedDB;
-if (!window.indexedDB) {
-console.log("The web browser doesn't support IndexedDB");
-} else {
-console.log("The web browser supports IndexedDB");
-}
+// window.indexedDB = window.indexedDB || window.mozIndexedDB ||
+// window.webkitIndexedDB || window.msIndexedDB;
+// if (!window.indexedDB) {
+// console.log("The web browser doesn't support IndexedDB");
+// } else {
+// console.log("The web browser supports IndexedDB");
+// }
 
-//TODO func openCalorisDB
-var idb = {}
 
-idb.openCalorisDB = function(dbName, version){
+//Map instance to interact with indexDB DataBase
+let idb = {}
+
+//first call for DataBase opening in indexDB
+idb.openCaloriesDB = function(dbName, version){
     return new Promise((resolve,reject) => {
         const request = window.indexedDB.open(dbName, version);
         request.onerror = function(event) {
-            console.log("openCalorisDB(): error: "+event);
+            console.log("openCaloriesDB(): error: "+event);
             reject("error: "+event);
         };
         request.onsuccess = function(event) {
             idb.db = request.result;
-            console.log("openCalorisDB(): success, db created.");
+            console.log("openCaloriesDB(): success, db created.");
+            console.log(idb.db);
             resolve(idb);
         };
         request.onupgradeneeded = function(event) {
@@ -30,10 +33,9 @@ idb.openCalorisDB = function(dbName, version){
     });
 }
 
-
 // add calories to the indexedDB.
-// input: row of data - givven as a key-value pairs.
-// the function store the data with 4 colomns added to it:
+// input: row of data - given as a key-value pairs.
+// the function store the data with 4 columns added to it:
 // year, month, day - according to date
 // id - unique auto generated dy indexedDB.
 idb.addCalories = function (row) {
@@ -41,12 +43,12 @@ idb.addCalories = function (row) {
         const date = new Date();
         // get day value  
         row.day = date.getDate();
-        // month = value +1 becouse it displays januar as 0
+        // month = value +1 because it displays january as 0
         row.month = date.getMonth() + 1;
-        // year = val % 100 becouse it desplay 124 when its 24
+        // year = val % 100 because it desplay 124 when its 24
         row.year = date.getYear() % 100;
-        const dbName = this.db.name;
-        const request = this.db.transaction([dbName], "readwrite")
+        const dbName = idb.db.name;
+        const request = idb.db.transaction([dbName], "readwrite")
             .objectStore(dbName)
             .add(row);
         request.onsuccess = function(event) {
@@ -55,29 +57,29 @@ idb.addCalories = function (row) {
         };
         request.onerror = function(event) {
             console.log("addCalories(): error:" + event);
-            reject('error accure during item insertion.');
+            reject('error accrue during item insertion.');
         }
     });
 }
 
 
-//TODO func readCallories
-// parameter mounth state:
+// readCalories
+// parameter month state:
 //   empty give the all year.
 //   if full perform validation
 // parameter year state:
 //   if empty give this year.
 //   if full perform validation test.
 // get the data from the db according to the year and month.
-// concat it as dictionary.
+// concat it as array.
 // send it back as response.
 idb.readCalories = function (month=null, year=null) {
     return new Promise((resolve,reject) => {
-        const dbName = this.db.name;
-        const transaction = this.db.transaction([dbName]);
+        const dbName = idb.db.name;
+        const transaction = idb.db.transaction([dbName]);
         const objectStore = transaction.objectStore(dbName);
-        var request;
-        var allDataFlag = 0;
+        let request;
+        let allDataFlag = 0;
         const result = [];
         // if not specify month and year - return all data
         if(month == null && year == null){
@@ -85,14 +87,14 @@ idb.readCalories = function (month=null, year=null) {
             allDataFlag = 1;
         }
         else{
-            var yearTo = year;
-            var yearFrom = year;
-            var monthFrom = month;
-            var monthTo = month;
+            let yearTo = year;
+            let yearFrom = year;
+            let monthFrom = month;
+            let monthTo = month;
             // if specified year only - return that year data
             if(month == null && year != null){
                 monthFrom = 1;
-                const currYear = new Date().getYear%100;
+                const currYear = new Date().getYear %100;
                 if (year === currYear){
                     monthTo = new Date().getMonth + 1;
                 }
@@ -155,7 +157,7 @@ idb.readCalories = function (month=null, year=null) {
     });
 }
 
-// removing callories from indexedDB by its ID
+// removing calories from indexedDB by its ID
 idb.removeCalories = function(id){
     return new Promise((resolve,reject)=>{
         const dbName = this.db.name;
@@ -172,3 +174,5 @@ idb.removeCalories = function(id){
         }
     });
 }
+
+export default idb;

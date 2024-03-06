@@ -2,12 +2,12 @@ import React from "react";
 import Table from "./Table";
 import ReportBtns from "./ReportBtns";
 
-function TableContainer()
+function TableContainer(db)
 {
     return(
         <div className={"table-container"}>
             <ReportBtns />
-            <Table />
+            <Table db={db} />
         </div>
     );
 }

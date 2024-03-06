@@ -1,15 +1,22 @@
-.madimi-one-regular {
-  font-family: "Madimi One", sans-serif;
+/*.madimi-one-regular {*/
+/*  font-family: "Madimi One", sans-serif;*/
+/*  font-weight: 400;*/
+/*  font-style: normal;*/
+/*}*/
+
+.arvo-regular {
+  font-family: "Arvo", serif;
   font-weight: 400;
   font-style: normal;
 }
 body{
-  background-color: blanchedalmond;
+  /*background-color: blanchedalmond;*/
+  background-color: #D5DBDB;
 }
 .page{
   display: grid;
-  grid-template-columns: 2fr 7fr;
-  grid-template-rows: 1fr 5fr 24px;
+  grid-template-columns: 1.5fr 6fr;
+  grid-template-rows: 0.5fr 4fr 24px;
   grid-template-areas: "header header"
 "addmeal table"
 "footer footer";
@@ -19,11 +26,15 @@ body{
 .heading-container{
   grid-area: header;
   display: flex;
-  justify-content: center;
+  justify-content:flex-start;
+  border-radius: 25px;
+  background-color: white;
+  box-shadow: 0 3px 5px #2471A3;
+  margin:15px;
 }
 .material-symbols-rounded {
-  font-size:7rem;
-  color: #900C3F;
+  font-size:6rem;
+  color: #2471A3;
 }
 
 .heading {
@@ -31,12 +42,13 @@ body{
   text-align: center;
   font-weight:800 ;
   margin: 0;
-  font-size: 3.25rem;
+  font-size: 3rem;
   align-self: center;
 }
 
 h1{
-  color: #900C3F;
+  /*color: #900C3F;*/
+  color:#2471A3;
 }
 
 .report-btns{
@@ -49,21 +61,24 @@ h1{
 }
 
 .button{
-  background-color: #900C3F;
+  /*background-color: #900C3F;*/
+  background-color: #1A5276;
   color:white;
   padding: 5px;
   margin: 5px;
   font-size: 0.75rem;
   border-radius: 10px;
-  box-shadow: 0 1px 2px #900C3F;
+  box-shadow: 0 3px 5px #5DADE2;
   font-family: system-ui;
 }
 
 .add-calories-container {
   grid-area: addmeal;
   border-radius: 25px;
-  background-color: burlywood;
-  box-shadow: 0 2px 5px #ccc;
+  /*background-color: burlywood;*/
+  background-color: white;
+  /*box-shadow: 0 2px 5px #ccc;*/
+  box-shadow: 0 3px 5px #2471A3;
   text-align: center;
   padding: 25px 15px;
   display: flex;
@@ -72,17 +87,19 @@ h1{
   justify-content: space-around;
 }
 
-.date-pickers-container{
-  grid-area: table;
-  display: flex;
-  justify-content: space-around;
+/*.date-pickers-container{*/
+/*  grid-area: table;*/
+/*  display: flex;*/
+/*  justify-content: space-around;*/
 
-}
+/*}*/
 .table-container{
   grid-area: table;
   border-radius: 25px;
-  background-color: burlywood;
-  box-shadow: 0 2px 5px #ccc;
+  /*background-color: burlywood;*/
+  background-color: white;
+  /*box-shadow: 0 2px 5px #ccc;*/
+  box-shadow: 0 3px 5px #2471A3;
   /*text-align: center;*/
   height: 100%;
   width: 100%;
@@ -94,7 +111,8 @@ h1{
 .footer {
   grid-area: footer;
   text-align: center;
-  color: #900C3F;
+  color: #1A5276;
+  font-style: normal;
   padding-block-start: 10px;
 }
 

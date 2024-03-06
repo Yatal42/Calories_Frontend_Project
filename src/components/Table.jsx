@@ -1,70 +1,92 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
+import idb from "../idb";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
-const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    {
-        field: 'firstName',
-        headerName: 'First name',
-        width: 100,
-        editable: true,
-    },
-    {
-        field: 'lastName',
-        headerName: 'Last name',
-        width: 150,
-        editable: true,
-    },
-    {
-        field: 'calories',
-        headerName: 'calories',
-        type: 'number',
-        width: 150,
-        editable: true,
-    },
-    {
-        field: 'fullName',
-        headerName: 'Full name',
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 160,
-        valueGetter: (params) =>
-            `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    },
-];
+export default function Table(db) {
+    const [rows, setRows] = React.useState([]);
 
-const rows = [
-    { id: 1, lastName: 'Snow', firstName: 'Jon', calories: 14 },
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', calories: 31 },
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', calories: 31 },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', calories: 11 },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', calories: null },
-    { id: 6, lastName: 'Melisandre', firstName: null, calories: 150 },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', calories: 44 },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', calories: 36 },
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', calories: 65 },
-];
+    React.useEffect(() => {
+        fetchData(); // Call the fetchData function when the component mounts
 
-export default function Table() {
+        // Create a MutationObserver to listen for changes in IndexedDB
+        const observer = new MutationObserver(() => fetchData());
+        observer.observe(db, { subtree: true, childList: true });
+
+        // Clean up the observer when the component unmounts
+        return () => observer.disconnect();
+    }, []); // Empty dependency array ensures useEffect runs only once
+
+    const fetchData = async () => {
+        try {
+            const data = await db.readCalories(); // Fetch data from the database
+            setRows(data); // Update state with the fetched data
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    const handleDeleteClick = async (id) => {
+        try {
+            await db.removeCalories(id); // Remove the row from the database
+            await fetchData(); // Fetch updated data from the database
+        } catch (error) {
+            console.error('Error deleting data:', error);
+        }
+    };
+
+    const columns = [
+        {
+            field: 'description',
+            headerName: 'Description',
+            width: 150,
+            editable: true,
+        },
+        {
+            field: 'category',
+            headerName: 'Category',
+            width: 100,
+            editable: true,
+        },
+        {
+            field: 'calories',
+            headerName: 'Calories',
+            type: 'number',
+            width: 80,
+            editable: true,
+        },
+        {
+            field: 'day',
+            width: 40,
+        },
+        {
+            field: 'month',
+            width: 40,
+        },
+        {
+            field: 'year',
+            width: 40,
+        },
+        {
+            field: 'delete',
+            width: 40,
+            headerName: 'Delete',
+            renderCell: (params) => (
+                <DeleteOutlinedIcon onClick={() => handleDeleteClick(params.row.id)} />
+            ),
+        },
+    ];
+
     return (
         <Box className="table">
             <DataGrid
                 rows={rows}
                 columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: {
-                            pageSize: 7,
-                        },
-                    },
-                }}
-                pageSizeOptions={[7]}
+                pageSize={7}
                 checkboxSelection
                 disableRowSelectionOnClick
             />
         </Box>
     );
 }
-
-//

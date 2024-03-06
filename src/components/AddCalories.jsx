@@ -3,6 +3,7 @@ import Button from "./Button";
 import AddMealTextFields from "./AddMealTextFields";
 import idb from "../idb";
 
+
 function AddCalories() {
     const [mealData, setMealData] = useState({
         calories: "",
@@ -19,8 +20,7 @@ function AddCalories() {
             console.log(mealData); // Log mealData before submission
 
             // Use mealData to add calories to the IndexedDB
-            // const result= await idb.addCalories(mealData);
-
+            const result= await idb.addCalories(mealData);
             // Update mealData state to clear the form fields
             setMealData({
                 calories: "",
