@@ -1,34 +1,28 @@
-// check for indexed db availability in browser.
-// window.indexedDB = window.indexedDB || window.mozIndexedDB ||
-// window.webkitIndexedDB || window.msIndexedDB;
-// if (!window.indexedDB) {
-// console.log("The web browser doesn't support IndexedDB");
-// } else {
-// console.log("The web browser supports IndexedDB");
-// }
-
-
 //Map instance to interact with indexDB DataBase
-let idb = {}
+let idb = {
+    db: null,
+    initialized: false
+};
 
-//first call for DataBase opening in indexDB
+// Function to open the IndexedDB database
 idb.openCaloriesDB = function(dbName, version){
     return new Promise((resolve,reject) => {
         const request = window.indexedDB.open(dbName, version);
         request.onerror = function(event) {
-            console.log("openCaloriesDB(): error: "+event);
-            reject("error: "+event);
+            console.error("openCaloriesDB(): error:", event);
+            reject(event);
         };
         request.onsuccess = function(event) {
             idb.db = request.result;
-            console.log("openCaloriesDB(): success, db created.");
-            console.log(idb.db);
+            console.log("openCaloriesDB(): success, db created:", idb.db.name);
+            idb.initialized = true;
             resolve(idb);
         };
         request.onupgradeneeded = function(event) {
             idb.db = event.target.result;
             const store = idb.db.createObjectStore(dbName, {keyPath: 'id', autoIncrement: true});
             store.createIndex('month_and_year', ['year','month'],{unique: false});
+            console.log("openCaloriesDB(): Database upgraded successfully:", idb.db.name);
         };
     });
 }
@@ -40,6 +34,11 @@ idb.openCaloriesDB = function(dbName, version){
 // id - unique auto generated dy indexedDB.
 idb.addCalories = function (row) {
     return new Promise((resolve,reject) => {
+        if (!idb.initialized) {
+            reject("Database not initialized.");
+            return;
+        }
+
         const date = new Date();
         // get day value  
         row.day = date.getDate();
@@ -52,16 +51,15 @@ idb.addCalories = function (row) {
             .objectStore(dbName)
             .add(row);
         request.onsuccess = function(event) {
-            console.log("addCalories(): seccess. new item added to DB.");
-            resolve('suceed.');
+            console.log("addCalories(): success, new item added to DB.");
+            resolve('succeed.');
         };
         request.onerror = function(event) {
-            console.log("addCalories(): error:" + event);
-            reject('error accrue during item insertion.');
+            console.error("addCalories(): error:", event);
+            reject('error occurred during item insertion.');
         }
     });
 }
-
 
 // readCalories
 // parameter month state:
@@ -75,6 +73,11 @@ idb.addCalories = function (row) {
 // send it back as response.
 idb.readCalories = function (month=null, year=null) {
     return new Promise((resolve,reject) => {
+        if (!idb.initialized) {
+            reject("Database not initialized.");
+            return;
+        }
+
         const dbName = idb.db.name;
         const transaction = idb.db.transaction([dbName]);
         const objectStore = transaction.objectStore(dbName);
@@ -94,9 +97,9 @@ idb.readCalories = function (month=null, year=null) {
             // if specified year only - return that year data
             if(month == null && year != null){
                 monthFrom = 1;
-                const currYear = new Date().getYear %100;
+                const currYear = new Date().getYear() %100;
                 if (year === currYear){
-                    monthTo = new Date().getMonth + 1;
+                    monthTo = new Date().getMonth() + 1;
                 }
                 else{
                     monthTo = 12;
@@ -129,7 +132,7 @@ idb.readCalories = function (month=null, year=null) {
             request = yearToMonthIndex.openCursor(keyRange);
         }
         request.onerror = function(event){
-            console.log('readCalories(): cannot find the data item.');
+            console.error('readCalories(): cannot find the data item.');
             reject('error:' + event);
         };
         request.onsuccess = function(event){
@@ -148,7 +151,7 @@ idb.readCalories = function (month=null, year=null) {
                         cursor.continue();
                     }
                 }
-                
+
                 else{
                     resolve(result);
                 }
@@ -160,16 +163,21 @@ idb.readCalories = function (month=null, year=null) {
 // removing calories from indexedDB by its ID
 idb.removeCalories = function(id){
     return new Promise((resolve,reject)=>{
-        const dbName = this.db.name;
-        const request = this.db.transaction([dbName], "readwrite")
-                .objectStore(dbName)
-                .delete(id);
+        if (!idb.initialized) {
+            reject("Database not initialized.");
+            return;
+        }
+
+        const dbName = idb.db.name;
+        const request = idb.db.transaction([dbName], "readwrite")
+            .objectStore(dbName)
+            .delete(id);
         request.onsuccess = function(event) {
             console.log("removeItem(): the data item was removed from the database");
-            resolve('suceed');
+            resolve('succeed');
         };
         request.onerror = function(event) {
-            console.log("removeItem(): problem with removing a data item from the database");
+            console.error("removeItem(): problem with removing a data item from the database");
             reject('failed');
         }
     });

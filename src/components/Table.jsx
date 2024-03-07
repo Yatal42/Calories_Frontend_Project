@@ -4,23 +4,16 @@ import { DataGrid } from '@mui/x-data-grid';
 import idb from "../idb";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
-export default function Table(db) {
+export default function Table() {
     const [rows, setRows] = React.useState([]);
 
     React.useEffect(() => {
         fetchData(); // Call the fetchData function when the component mounts
-
-        // Create a MutationObserver to listen for changes in IndexedDB
-        const observer = new MutationObserver(() => fetchData());
-        observer.observe(db, { subtree: true, childList: true });
-
-        // Clean up the observer when the component unmounts
-        return () => observer.disconnect();
     }, []); // Empty dependency array ensures useEffect runs only once
 
     const fetchData = async () => {
         try {
-            const data = await db.readCalories(); // Fetch data from the database
+            const data = await idb.readCalories(); // Fetch data from the database
             setRows(data); // Update state with the fetched data
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -29,7 +22,7 @@ export default function Table(db) {
 
     const handleDeleteClick = async (id) => {
         try {
-            await db.removeCalories(id); // Remove the row from the database
+            await idb.removeCalories(id); // Remove the row from the database
             await fetchData(); // Fetch updated data from the database
         } catch (error) {
             console.error('Error deleting data:', error);

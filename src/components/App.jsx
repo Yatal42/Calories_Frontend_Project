@@ -10,10 +10,9 @@ import idb from "../idb.js";
 
 function App(){
 
-    let db;
     async function test() {
         try {
-            db = await idb.openCaloriesDB("caloriesdb", 1);
+            const db = await idb.openCaloriesDB("caloriesdb", 1);
             // Do something with the database...
         } catch (error) {
             console.error("Error opening database:", error);
@@ -24,14 +23,13 @@ function App(){
 
     return(
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <div className="page madimi-one-regular">
-            <Heading/>
-            <AddCalories />
-            <TableContainer db={db} />
-            <Footer />
-        </div>
+            <div className="page madimi-one-regular">
+                <Heading/>
+                <AddCalories />
+                <TableContainer />
+                <Footer />
+            </div>
         </LocalizationProvider>);
 }
 
 export default App;
-
