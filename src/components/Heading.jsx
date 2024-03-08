@@ -5,11 +5,11 @@ function Heading() {
   const currentTime = date.getHours();
   let greeting="My calories ";
 
-  if (currentTime < 12) {
+  if (currentTime < 12 && currentTime > 5 ) {
     greeting += "Good morning";
-  } else if (currentTime < 20) {
+  } else if (currentTime < 20 && currentTime>16) {
     greeting += "Good Afternoon";
-  } else {
+  } else if (currentTime<5) {
     greeting += "Good Night";
   }
 
