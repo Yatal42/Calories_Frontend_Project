@@ -10,12 +10,14 @@
   font-style: normal;
 }
 body{
-  /*background-color: blanchedalmond;*/
   background-color: #D5DBDB;
+  padding-left: 200px;
+  padding-right: 200px;
 }
+
 .page{
   display: grid;
-  grid-template-columns: 1.5fr 6fr;
+  grid-template-columns: 1.5fr 4fr;
   grid-template-rows: 0.5fr 4fr 24px;
   grid-template-areas: "header header"
 "addmeal table"
@@ -38,7 +40,6 @@ body{
 }
 
 .heading {
-  /*border: 3px solid #900C3F;*/
   text-align: center;
   font-weight:800 ;
   margin: 0;
@@ -47,11 +48,10 @@ body{
 }
 
 h1{
-  /*color: #900C3F;*/
   color:#2471A3;
 }
 
-.report-btns{
+.report-container{
   grid-area: table;
   margin-block: 1em;
   display: flex;
@@ -61,23 +61,22 @@ h1{
 }
 
 .button{
-  /*background-color: #900C3F;*/
   background-color: #1A5276;
   color:white;
   padding: 5px;
   margin: 5px;
-  font-size: 0.75rem;
+  font-size: 1rem;
   border-radius: 10px;
-  box-shadow: 0 3px 5px #5DADE2;
+  width: 10rem;
+  height: 2.5rem;
   font-family: system-ui;
+  align-self: center;
 }
 
 .add-calories-container {
   grid-area: addmeal;
   border-radius: 25px;
-  /*background-color: burlywood;*/
   background-color: white;
-  /*box-shadow: 0 2px 5px #ccc;*/
   box-shadow: 0 3px 5px #2471A3;
   text-align: center;
   padding: 25px 15px;
@@ -85,6 +84,13 @@ h1{
   flex-direction: column;
   height: 100%;
   justify-content: space-around;
+}
+
+.text-field-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 70%;
 }
 
 /*.date-pickers-container{*/

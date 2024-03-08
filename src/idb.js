@@ -1,28 +1,24 @@
 //Map instance to interact with indexDB DataBase
-let idb = {
-    db: null,
-    initialized: false
-};
+let idb = {}
 
-// Function to open the IndexedDB database
+//first call for DataBase opening in indexDB
 idb.openCaloriesDB = function(dbName, version){
     return new Promise((resolve,reject) => {
         const request = window.indexedDB.open(dbName, version);
         request.onerror = function(event) {
-            console.error("openCaloriesDB(): error:", event);
-            reject(event);
+            console.log("openCaloriesDB(): error: "+event);
+            reject("error: "+event);
         };
         request.onsuccess = function(event) {
             idb.db = request.result;
-            console.log("openCaloriesDB(): success, db created:", idb.db.name);
-            idb.initialized = true;
+            console.log("openCaloriesDB(): success, db created.");
+            console.log(idb.db.name);
             resolve(idb);
         };
         request.onupgradeneeded = function(event) {
             idb.db = event.target.result;
             const store = idb.db.createObjectStore(dbName, {keyPath: 'id', autoIncrement: true});
             store.createIndex('month_and_year', ['year','month'],{unique: false});
-            console.log("openCaloriesDB(): Database upgraded successfully:", idb.db.name);
         };
     });
 }
@@ -34,13 +30,8 @@ idb.openCaloriesDB = function(dbName, version){
 // id - unique auto generated dy indexedDB.
 idb.addCalories = function (row) {
     return new Promise((resolve,reject) => {
-        if (!idb.initialized) {
-            reject("Database not initialized.");
-            return;
-        }
-
         const date = new Date();
-        // get day value  
+        // get day value
         row.day = date.getDate();
         // month = value +1 because it displays january as 0
         row.month = date.getMonth() + 1;
@@ -51,15 +42,16 @@ idb.addCalories = function (row) {
             .objectStore(dbName)
             .add(row);
         request.onsuccess = function(event) {
-            console.log("addCalories(): success, new item added to DB.");
-            resolve('succeed.');
+            console.log("addCalories(): seccess. new item added to DB.");
+            resolve('suceed.');
         };
         request.onerror = function(event) {
-            console.error("addCalories(): error:", event);
-            reject('error occurred during item insertion.');
+            console.log("addCalories(): error:" + event);
+            reject('error accrue during item insertion.');
         }
     });
 }
+
 
 // readCalories
 // parameter month state:
@@ -73,11 +65,6 @@ idb.addCalories = function (row) {
 // send it back as response.
 idb.readCalories = function (month=null, year=null) {
     return new Promise((resolve,reject) => {
-        if (!idb.initialized) {
-            reject("Database not initialized.");
-            return;
-        }
-
         const dbName = idb.db.name;
         const transaction = idb.db.transaction([dbName]);
         const objectStore = transaction.objectStore(dbName);
@@ -97,9 +84,9 @@ idb.readCalories = function (month=null, year=null) {
             // if specified year only - return that year data
             if(month == null && year != null){
                 monthFrom = 1;
-                const currYear = new Date().getYear() %100;
+                const currYear = new Date().getYear %100;
                 if (year === currYear){
-                    monthTo = new Date().getMonth() + 1;
+                    monthTo = new Date().getMonth + 1;
                 }
                 else{
                     monthTo = 12;
@@ -132,7 +119,7 @@ idb.readCalories = function (month=null, year=null) {
             request = yearToMonthIndex.openCursor(keyRange);
         }
         request.onerror = function(event){
-            console.error('readCalories(): cannot find the data item.');
+            console.log('readCalories(): cannot find the data item.');
             reject('error:' + event);
         };
         request.onsuccess = function(event){
@@ -163,21 +150,16 @@ idb.readCalories = function (month=null, year=null) {
 // removing calories from indexedDB by its ID
 idb.removeCalories = function(id){
     return new Promise((resolve,reject)=>{
-        if (!idb.initialized) {
-            reject("Database not initialized.");
-            return;
-        }
-
-        const dbName = idb.db.name;
-        const request = idb.db.transaction([dbName], "readwrite")
+        const dbName = this.db.name;
+        const request = this.db.transaction([dbName], "readwrite")
             .objectStore(dbName)
             .delete(id);
         request.onsuccess = function(event) {
             console.log("removeItem(): the data item was removed from the database");
-            resolve('succeed');
+            resolve('suceed');
         };
         request.onerror = function(event) {
-            console.error("removeItem(): problem with removing a data item from the database");
+            console.log("removeItem(): problem with removing a data item from the database");
             reject('failed');
         }
     });

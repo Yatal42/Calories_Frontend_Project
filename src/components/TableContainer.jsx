@@ -2,12 +2,13 @@ import React from "react";
 import Table from "./Table";
 import ReportBtns from "./ReportBtns";
 
-function TableContainer()
+function TableContainer({isLoading, db = {}, rows, setRows})
 {
+
     return(
         <div className={"table-container"}>
             <ReportBtns />
-            <Table />
+            <Table isLoading={isLoading} db={db} rows={rows} setRows={setRows}/>
         </div>
     );
 }

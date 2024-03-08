@@ -1,29 +1,31 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
-import idb from "../idb";
+import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import {useEffect} from "react";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
-export default function Table() {
-    const [rows, setRows] = React.useState([]);
+function Table({isLoading, db = {}, rows, setRows}) {
 
-    React.useEffect(() => {
-        fetchData(); // Call the fetchData function when the component mounts
-    }, []); // Empty dependency array ensures useEffect runs only once
-
-    const fetchData = async () => {
-        try {
-            const data = await idb.readCalories(); // Fetch data from the database
-            setRows(data); // Update state with the fetched data
-        } catch (error) {
-            console.error('Error fetching data:', error);
+    useEffect(() => {
+        if (isLoading) {
+            return;
+        } else {
+            db.readCalories().then((result) => setRows(result));
         }
-    };
+    }, [db, isLoading]);
 
-    const handleDeleteClick = async (id) => {
+    function CustomToolbar() {
+        return (
+            <GridToolbarContainer>
+                <GridToolbarExport />
+            </GridToolbarContainer>
+        );
+    }
+
+    const handleDeleteClick =  (id) => {
         try {
-            await idb.removeCalories(id); // Remove the row from the database
-            await fetchData(); // Fetch updated data from the database
+            db.removeCalories(id);// Remove the row from the database
+            db.readCalories().then((r) => setRows(r));
         } catch (error) {
             console.error('Error deleting data:', error);
         }
@@ -31,39 +33,39 @@ export default function Table() {
 
     const columns = [
         {
-            field: 'description',
-            headerName: 'Description',
+            field: 'category',
+            headerName: 'Category',
             width: 150,
             editable: true,
         },
         {
-            field: 'category',
-            headerName: 'Category',
-            width: 100,
+            field: 'description',
+            headerName: 'Description',
+            width: 200,
             editable: true,
         },
         {
             field: 'calories',
             headerName: 'Calories',
             type: 'number',
-            width: 80,
+            width: 100,
             editable: true,
         },
         {
             field: 'day',
-            width: 40,
+            width: 60,
         },
         {
             field: 'month',
-            width: 40,
+            width: 60,
         },
         {
             field: 'year',
-            width: 40,
+            width: 60,
         },
         {
             field: 'delete',
-            width: 40,
+            width: 60,
             headerName: 'Delete',
             renderCell: (params) => (
                 <DeleteOutlinedIcon onClick={() => handleDeleteClick(params.row.id)} />
@@ -76,10 +78,18 @@ export default function Table() {
             <DataGrid
                 rows={rows}
                 columns={columns}
-                pageSize={7}
-                checkboxSelection
-                disableRowSelectionOnClick
+                initialState={{
+                    pagination:{
+                        paginationModel:{page:0, pageSize:5}
+                    }
+                }}
+                pageSizeOptions={[5]}
+                slots={{
+                    toolbar: CustomToolbar,
+                }}
             />
         </Box>
     );
 }
+
+export default Table;
