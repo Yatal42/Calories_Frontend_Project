@@ -54,10 +54,10 @@ idb.addCalories = function (row) {
 
 
 // readCalories
-// parameter month state:
+// parameter month state: (integer value between 1 to 12)
 //   empty give the all year.
 //   if full perform validation
-// parameter year state:
+// parameter year state: (YY)
 //   if empty give this year.
 //   if full perform validation test.
 // get the data from the db according to the year and month.
