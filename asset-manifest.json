@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/calories_project/static/css/main.8c9b200d.css",
+    "main.js": "/calories_project/static/js/main.f758ccee.js",
+    "index.html": "/calories_project/index.html",
+    "main.8c9b200d.css.map": "/calories_project/static/css/main.8c9b200d.css.map",
+    "main.f758ccee.js.map": "/calories_project/static/js/main.f758ccee.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8c9b200d.css",
+    "static/js/main.f758ccee.js"
+  ]
+}
