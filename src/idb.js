@@ -94,14 +94,14 @@ idb.readCalories = function (month=null, year=null) {
             }
             // if specified month and year - return specified month and year data
             else if(month != null && year != null){
-                //its ok do nothing
+                //it's ok do nothing
             }
             // if month only - return latest month data
             else if(month != null && year == null){
                 var current_month = new Date().getMonth() + 1;
                 // if the month was not this year.
                 if (current_month < month){
-                    //get the year befour
+                    //get the year before
                     yearFrom = yearTo = new Date().getYear() %100 -1;
                 }
                 else{
@@ -125,7 +125,6 @@ idb.readCalories = function (month=null, year=null) {
         request.onsuccess = function(event){
             if(allDataFlag === 1){
                 if(request.result){
-                    // TODO: fix this TEST to show ALL items in the result.
                     console.log('readCalories(): success, return the result');
                     resolve(request.result);
                 }
@@ -156,7 +155,7 @@ idb.removeCalories = function(id){
             .delete(id);
         request.onsuccess = function(event) {
             console.log("removeItem(): the data item was removed from the database");
-            resolve('suceed');
+            resolve('succeed');
         };
         request.onerror = function(event) {
             console.log("removeItem(): problem with removing a data item from the database");

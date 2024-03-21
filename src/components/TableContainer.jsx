@@ -9,7 +9,7 @@ function TableContainer({isLoading, db = {}, rows, setRows})
     // Return JSX for the component
     return(
         <div className={"table-container"}>
-            <ReportBtns />
+            <ReportBtns isLoading={isLoading} db={db} rows={rows} setRows={setRows}/>
             <Table isLoading={isLoading} db={db} rows={rows} setRows={setRows}/>
         </div>
     );

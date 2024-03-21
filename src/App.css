@@ -54,7 +54,7 @@ h1{
   grid-area: table;
   margin-block: 1em;
   display: flex;
-  justify-content:flex-start;
+  justify-content:center;
   margin: 1rem;
   width: 97%;
 }
@@ -62,8 +62,9 @@ h1{
 .button{
   background-color: #1A5276;
   color:white;
-  padding: 5px;
-  margin: 5px;
+  /*padding: 5px;*/
+  /*margin: 5px;*/
+  /*padding-bottom: 10px;*/
   font-size: 1rem;
   border-radius: 10px;
   width: 10rem;
@@ -71,6 +72,11 @@ h1{
   font-family: system-ui;
   align-self: center;
 }
+
+/*.date-pickers-container{*/
+/*  display: flex;*/
+/*  justify-content: space-around;*/
+/*}*/
 
 .add-calories-container {
   grid-area: addmeal;

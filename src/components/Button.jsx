@@ -6,7 +6,7 @@ function Button(props){
     // Return JSX for the component
     return (
         // Render a button element with a class and display the text passed via props
-        <button className="button">{props.text}</button>
+        <button className="button" onClick={props.onClick}>{props.text}</button>
     );
 }
 
