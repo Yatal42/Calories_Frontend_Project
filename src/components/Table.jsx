@@ -1,7 +1,7 @@
 // Import React and Material-UI components
 import React from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import {useEffect} from "react";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
@@ -18,15 +18,6 @@ function Table({isLoading, db = {}, rows, setRows}) {
             db.readCalories().then((result) => setRows(result));
         }
     }, [db, isLoading]); // Re-run the effect when db or isLoading changes
-
-    // Define a custom toolbar component for the DataGrid
-    function CustomToolbar() {
-        return (
-            <GridToolbarContainer>
-                <GridToolbarExport />
-            </GridToolbarContainer>
-        );
-    }
 
     // Define a function to handle delete button clicks
     const handleDeleteClick =  (id) => {
@@ -96,9 +87,6 @@ function Table({isLoading, db = {}, rows, setRows}) {
                     }
                 }}
                 pageSizeOptions={[7]}  // Set the options for page size
-                slots={{
-                    toolbar: CustomToolbar,  // Use the CustomToolbar component for the DataGrid toolbar slot
-                }}
             />
         </Box>
     );
