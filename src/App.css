@@ -7,7 +7,7 @@
 }
 
 body{
-  background-color: #5F0B7A;
+  background-color: #F1EBF2;
   padding-left: 200px;
   padding-right: 200px;
 }
@@ -104,7 +104,7 @@ h1{
 .footer {
   grid-area: footer;
   text-align: center;
-  color: white;
+  color: #5F0B7A;
   font-size: 1.5em;
   font-style: normal;
   padding-block-start: 10px;
