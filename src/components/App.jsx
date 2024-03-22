@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import idb from "../idb.js";
+import dayjs from "dayjs";
 
 
 function App(){
@@ -15,6 +16,8 @@ function App(){
     const [db, setDb] = useState([]); // State for database connection
     const [isLoading, setIsLoading] = useState(true); // State to track data loading status
     const [rows, setRows] = useState([]); // State for table rows
+    // State for selectedDate using the dayjs library to get the current date
+    const [selectedDate, setSelectedDate] = useState(dayjs());
 
     // Use the useEffect hook to perform side effects
     useEffect(() => {
@@ -28,12 +31,14 @@ function App(){
     // Return JSX for the App component
     return(
         // Provide a context for date handling using dayjs library
-        // page componants render: Heading, AddCalories, TableContainer, Footer
+        // page components render: Heading, AddCalories, TableContainer, Footer
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className="page madimi-one-regular">
                 <Heading/>
-                <AddCalories isLoading={isLoading} db={db} rows={rows} setRows={setRows}/>
-                <TableContainer isLoading={isLoading} db={db} rows={rows} setRows={setRows}/>
+                <AddCalories db={db} setRows={setRows} setSelectedDate={setSelectedDate}/>
+                <TableContainer isLoading={isLoading} db={db} rows={rows}
+                                setRows={setRows} selectedDate={selectedDate}
+                                setSelectedDate={setSelectedDate}/>
                 <Footer />
             </div>
         </LocalizationProvider>);

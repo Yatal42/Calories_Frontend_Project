@@ -4,7 +4,7 @@ import Button from "./Button";
 import AddMealTextFields from "./AddMealTextFields";
 
 // Define the AddCalories functional component with destructured props
-function AddCalories({isLoading, db = {}, rows, setRows}) {
+function AddCalories({db = {}, setRows, setSelectedDate}) {
     // Initialize state for mealData with default empty values
     const [mealData, setMealData] = useState({
         calories: "",
@@ -19,6 +19,8 @@ function AddCalories({isLoading, db = {}, rows, setRows}) {
             console.log(mealData); // Log mealData before submission
             // Use mealData to add calories to the IndexedDB
             db.addCalories(mealData);
+            //Reset the selectedDate to preview the
+            setSelectedDate(null);
             // Update the table data
             db.readCalories().then((r) => setRows(r));
             event.preventDefault();    // Prevent default form submission behavior
@@ -28,7 +30,9 @@ function AddCalories({isLoading, db = {}, rows, setRows}) {
                 description: "",
                 category: "",
             });
-            console.log("Meal added successfully!"); // Success message
+            // Success message
+            console.log("Meal added successfully!");
+            window.confirm("Meal added successfully!");
         } catch (error) {
             console.error("Error adding meal:", error); // Error message
         }

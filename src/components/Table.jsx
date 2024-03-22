@@ -92,10 +92,10 @@ function Table({isLoading, db = {}, rows, setRows}) {
                 columns={columns}
                 initialState={{
                     pagination:{
-                        paginationModel:{page:0, pageSize:5}  // Set initial pagination state
+                        paginationModel:{page:0, pageSize:7}  // Set initial pagination state
                     }
                 }}
-                pageSizeOptions={[5]}  // Set the options for page size
+                pageSizeOptions={[7]}  // Set the options for page size
                 slots={{
                     toolbar: CustomToolbar,  // Use the CustomToolbar component for the DataGrid toolbar slot
                 }}

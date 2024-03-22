@@ -1,6 +1,5 @@
 /* CSS file for all app. (components, body, etc..) */
 
-
 .arvo-regular {
   font-family: "Arvo", serif;
   font-weight: 400;
@@ -8,7 +7,7 @@
 }
 
 body{
-  background-color: #D5DBDB;
+  background-color: #5F0B7A;
   padding-left: 200px;
   padding-right: 200px;
 }
@@ -28,14 +27,13 @@ body{
   display: flex;
   justify-content:flex-start;
   border-radius: 25px;
-  background-color: white;
-  box-shadow: 0 3px 5px #2471A3;
+  background-color: #FAF9F1;
   margin:15px;
 }
 
 .material-symbols-rounded {
   font-size:6rem;
-  color: #2471A3;
+  color: #5F0B7A;
 }
 
 .heading {
@@ -47,24 +45,21 @@ body{
 }
 
 h1{
-  color:#2471A3;
+  color:#5F0B7A;
 }
 
-.report-container{
+.date-pickers-container{
   grid-area: table;
   margin-block: 1em;
   display: flex;
-  justify-content:center;
+  justify-content:space-evenly;
   margin: 1rem;
   width: 97%;
 }
 
 .button{
-  background-color: #1A5276;
+  background-color: #5F0B7A;
   color:white;
-  /*padding: 5px;*/
-  /*margin: 5px;*/
-  /*padding-bottom: 10px;*/
   font-size: 1rem;
   border-radius: 10px;
   width: 10rem;
@@ -73,16 +68,10 @@ h1{
   align-self: center;
 }
 
-/*.date-pickers-container{*/
-/*  display: flex;*/
-/*  justify-content: space-around;*/
-/*}*/
-
 .add-calories-container {
   grid-area: addmeal;
   border-radius: 25px;
-  background-color: white;
-  box-shadow: 0 3px 5px #2471A3;
+  background-color: #FAF9F1;
   text-align: center;
   padding: 25px 15px;
   display: flex;
@@ -101,21 +90,22 @@ h1{
 .table-container{
   grid-area: table;
   border-radius: 25px;
-  background-color: white;
-  box-shadow: 0 3px 5px #2471A3;
+  background-color: #FAF9F1;
   height: 100%;
   width: 100%;
 }
 
 .table {
-  width: 100%;
+  width: 98%;
   height: 80%;
+  margin-inline: 8px;
 }
 
 .footer {
   grid-area: footer;
   text-align: center;
-  color: #1A5276;
+  color: white;
+  font-size: 1.5em;
   font-style: normal;
   padding-block-start: 10px;
 }

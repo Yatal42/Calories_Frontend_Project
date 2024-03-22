@@ -1,15 +1,16 @@
 // Import necessary modules from React and components from local files
 import React from "react";
 import Table from "./Table";
-import ReportBtns from "./ReportBtns";
+import DatePickers from "./DatePickers";
 
 // Define the TableContainer functional component with props
-function TableContainer({isLoading, db = {}, rows, setRows})
+function TableContainer({isLoading, db = {}, rows, setRows, selectedDate, setSelectedDate})
 {
     // Return JSX for the component
     return(
         <div className={"table-container"}>
-            <ReportBtns isLoading={isLoading} db={db} rows={rows} setRows={setRows}/>
+            <DatePickers db={db} setRows={setRows}
+                         selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
             <Table isLoading={isLoading} db={db} rows={rows} setRows={setRows}/>
         </div>
     );

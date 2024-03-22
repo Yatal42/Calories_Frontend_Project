@@ -11,11 +11,13 @@ function AddMealTextFields({ mealData = {}, setMealData }) { // Ensure mealData 
             id: 1,
             label: "Required Calories",
             stateKey: "calories",
+            type: "number",
         },
         {
             id: 2,
             label: "Required description",
             stateKey: "description",
+            type: "text",
         },
     ];
 
@@ -33,6 +35,7 @@ function AddMealTextFields({ mealData = {}, setMealData }) { // Ensure mealData 
                 <TextField
                     required    // Marks the field as required
                     key={textField.id}    // Unique key for React's rendering
+                    type={textField.type}       //Values validation
                     label={textField.label}    // Label text for the field
                     value={mealData[textField.stateKey] || ""} // Update state on change, Ensure default value is provided if stateKey does not exist
                     onChange={(event) => handleTextFieldChange(event, textField.stateKey)} // Update state on change

@@ -9,11 +9,11 @@ function Heading() {
   let greeting="My calories "; // Initialize the greeting message
 
   // Determine the greeting based on the current time
-  if (currentTime < 12 && currentTime > 5 ) {
+  if (currentTime <= 12 && currentTime > 5 ) {
     greeting += "Good morning";
-  } else if (currentTime < 20 && currentTime>16) {
+  } else if (currentTime < 20 && currentTime>12) {
     greeting += "Good Afternoon";
-  } else if (currentTime<5) {
+  } else {
     greeting += "Good Night";
   }
 

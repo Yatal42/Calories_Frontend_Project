@@ -1,15 +1,13 @@
 // Import React, useState hook, DatePicker component, and dayjs library
-import React, { useState } from "react";
+import React from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import Button from "./Button";
 
 // Define the DatePickers functional component
-function DatePickers({isLoading, db = {}, rows, setRows}) {
-    // Initialize state for selectedDate using the dayjs library to get the current date
-    const [selectedDate, setSelectedDate] = useState(dayjs());
+function DatePickers({db = {}, setRows, selectedDate, setSelectedDate}) {
 
-    // Define handleClick function
+    // Define handleClick functions
     const handleMonthlyClick = async () => {
         try {
             // Convert the timestamp to a dayjs object
@@ -50,10 +48,10 @@ function DatePickers({isLoading, db = {}, rows, setRows}) {
         <div className="date-pickers-container">
             <DatePicker
                 sx={{ width: "35%" }} // Apply inline styles for width
-                slotProps={{ textField: {helperText: "Select date",size: "small" }}} // Set properties for the input field
-                views={["month","year"]} // Limit the DatePicker view to months only
+                slotProps={{ textField: {size: "small" }}} // Set properties for the input field
+                views={["month","year"]} // Limit the DatePicker view to months and years only
                 value={selectedDate} // Bind the value to the selectedYear state
-                onChange={date => setSelectedDate(date)}// TODO : CHANGE.
+                onChange={date => setSelectedDate(date)}// Set state when selected date
                 disableFuture // Disable selection of future dates
             />
             <Button text="Monthly Report" onClick={handleMonthlyClick}/>
