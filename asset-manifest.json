@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/calories_project/static/css/main.8c9b200d.css",
-    "main.js": "/calories_project/static/js/main.f758ccee.js",
+    "main.css": "/calories_project/static/css/main.ecc174bb.css",
+    "main.js": "/calories_project/static/js/main.aa130af2.js",
     "index.html": "/calories_project/index.html",
-    "main.8c9b200d.css.map": "/calories_project/static/css/main.8c9b200d.css.map",
-    "main.f758ccee.js.map": "/calories_project/static/js/main.f758ccee.js.map"
+    "main.ecc174bb.css.map": "/calories_project/static/css/main.ecc174bb.css.map",
+    "main.aa130af2.js.map": "/calories_project/static/js/main.aa130af2.js.map"
   },
   "entrypoints": [
-    "static/css/main.8c9b200d.css",
-    "static/js/main.f758ccee.js"
+    "static/css/main.ecc174bb.css",
+    "static/js/main.aa130af2.js"
   ]
 }
